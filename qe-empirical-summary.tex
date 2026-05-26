@@ -1,0 +1,476 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{float}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black
+}
+
+% Custom commands
+\newcommand{\bps}{\text{ bps}}
+\newcommand{\pp}{\text{ pp}}
+
+\title{\textbf{Empirical Evidence on Quantitative Easing:\\Effects Across Major Economies}}
+\author{MoPoTools Wiki Summary}
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the empirical literature on the macroeconomic effects of quantitative easing (QE) programs implemented by major central banks since the 2008 Global Financial Crisis. We review evidence on effects on bond yields, GDP, and inflation across the United States, United Kingdom, Euro Area, Japan, and Sweden. A dedicated section examines Sweden's experience, drawing on the comprehensive 2026 Riksbank evaluation. The evidence suggests QE reduced long-term yields by 40--150 basis points, raised GDP by 1--3\%, and increased inflation by 0.3--2 percentage points, with substantial variation across countries and methodologies.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%==============================================================================
+\section{Introduction}
+%==============================================================================
+
+Quantitative easing (QE) refers to large-scale asset purchases by central banks, typically of government bonds, financed by the creation of central bank reserves. QE became a primary monetary policy tool when conventional interest rate policy reached the zero lower bound following the 2008 Global Financial Crisis.
+
+This summary draws on approximately 50 source documents including Federal Reserve speeches, central bank working papers, and academic research to synthesize the empirical evidence on QE effectiveness.
+
+%==============================================================================
+\section{Transmission Channels}
+%==============================================================================
+
+QE affects the economy through several channels:
+
+\begin{enumerate}
+    \item \textbf{Portfolio Balance}: Central bank purchases remove duration risk from private portfolios, lowering term premia and pushing investors toward riskier assets.
+
+    \item \textbf{Signaling}: Asset purchases signal commitment to maintaining low policy rates, reducing expected future short rates.
+
+    \item \textbf{Liquidity}: During market stress, central bank purchases improve market functioning and reduce liquidity premia.
+
+    \item \textbf{Exchange Rate}: Lower domestic yields reduce currency attractiveness, potentially causing depreciation and boosting net exports.
+
+    \item \textbf{Bank Capital}: Rising bond prices improve bank capital positions, enabling increased lending.
+\end{enumerate}
+
+The relative importance of each channel varies by country and economic context.
+
+%==============================================================================
+\section{Effects on Bond Yields}
+%==============================================================================
+
+The most directly measurable effect of QE is on government bond yields. Table~\ref{tab:yields} summarizes event study estimates across major programs.
+
+\begin{table}[H]
+\centering
+\caption{Estimated Effects of QE on 10-Year Government Bond Yields}
+\label{tab:yields}
+\begin{tabular}{llll}
+\toprule
+\textbf{Country} & \textbf{Program} & \textbf{Yield Impact} & \textbf{Source} \\
+\midrule
+\multirow{4}{*}{United States}
+    & QE1 (\$1.7T) & $-$40 to $-$110 bps & Bernanke (2012) \\
+    & QE1 & $-$107 bps & Krishnamurthy \& V-J (2011) \\
+    & QE2 (\$600B) & $-$15 to $-$45 bps & Bernanke (2012) \\
+\midrule
+\multirow{3}{*}{United Kingdom}
+    & QE1 (\pounds200B) & $-$100 bps & Joyce et al. (2011) \\
+    & QE1/QE2 & $-$47 bps & Christensen \& Rudebusch (2012) \\
+    & QE1 & $-$150 bps & Bridges \& Thomas (2012) \\
+\midrule
+\multirow{3}{*}{Euro Area}
+    & APP & $-$45 bps (avg) & Andrade et al. (2016) \\
+    & OMT & $-$199 bps (Italy 2y) & Altavilla et al. (2014) \\
+    & SMP & $-$32 to $-$40 bps & De Pooter et al. (2015) \\
+\midrule
+\multirow{2}{*}{Japan}
+    & QQE1 & $-$10 to $-$14 bps & Various \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Findings}
+
+\begin{itemize}
+    \item Effects were larger during periods of financial stress (QE1 vs. later rounds)
+    \item Portfolio balance effects dominated over signaling effects in most studies
+    \item Japanese effects were smaller due to already-low initial yields
+    \item Euro area peripheral countries experienced much larger yield reductions
+\end{itemize}
+
+%==============================================================================
+\section{Effects on GDP}
+%==============================================================================
+
+Table~\ref{tab:gdp} summarizes estimates of QE effects on real GDP.
+
+\begin{table}[H]
+\centering
+\caption{Estimated Effects of QE on GDP (Peak Effect)}
+\label{tab:gdp}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Country} & \textbf{Study} & \textbf{Method} & \textbf{GDP Impact} \\
+\midrule
+\multirow{2}{*}{United States}
+    & Bernanke (2012) & Fed models & +3\% \\
+    & Baumeister \& Benati (2013) & TVP-VAR & Prevented $-$10\% collapse \\
+\midrule
+\multirow{4}{*}{United Kingdom}
+    & Bridges \& Thomas (2012) & Monetarist & +2\% peak \\
+    & Kapetanios et al. (2012) & VAR & +1.5\% \\
+    & Baumeister \& Benati (2013) & TVP-VAR & +3\% \\
+    & Weale \& Wieladek (2016) & VAR & +0.25\% per 1\% GDP \\
+\midrule
+\multirow{3}{*}{Euro Area}
+    & Andrade et al. (2016) & APP & +1.1\% \\
+    & Altavilla et al. (2014) & OMT & +1.5\% (Italy) \\
+    & Hutchinson \& Smets (2017) & Combined & +1.7\% (2016--19) \\
+\midrule
+\multirow{2}{*}{Japan}
+    & Hausman \& Wieland (2014) & QQE1 & up to +1\% \\
+    & Kan et al. (2016) & QQE1 & +0.6\% to +4.2\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Counterfactual Analysis}
+
+Baumeister and Benati (2013) provide particularly striking counterfactual estimates using time-varying parameter VARs:
+
+\begin{itemize}
+    \item \textbf{United States}: Without QE, GDP growth would have contracted by 10\% (annualized) in 2009Q1, with unemployment exceeding 10.6\%
+    \item \textbf{United Kingdom}: Output growth would have dropped by 12\% at annual rates
+    \item Both economies faced ``output collapses comparable to those that took place during the Great Depression''
+\end{itemize}
+
+%==============================================================================
+\section{Effects on Inflation}
+%==============================================================================
+
+QE effects on inflation were generally more modest than effects on output. Table~\ref{tab:inflation} summarizes the evidence.
+
+\begin{table}[H]
+\centering
+\caption{Estimated Effects of QE on Inflation}
+\label{tab:inflation}
+\begin{tabular}{llll}
+\toprule
+\textbf{Country} & \textbf{Study} & \textbf{Inflation Impact} \\
+\midrule
+\multirow{2}{*}{United States}
+    & Baumeister \& Benati (2013) & Prevented $-$1\% deflation \\
+\midrule
+\multirow{3}{*}{United Kingdom}
+    & Bridges \& Thomas (2012) & +1.0 pp \\
+    & Kapetanios et al. (2012) & +1.25 pp \\
+    & Baumeister \& Benati (2013) & +2.0 pp \\
+\midrule
+\multirow{3}{*}{Euro Area}
+    & Andrade et al. (2016) & +0.4 pp (actual), +0.45 pp (expectations) \\
+    & Altavilla et al. (2014) & +1.2 pp (Italy) \\
+    & Hutchinson \& Smets (2017) & +0.5 pp (cumulative 2016--19) \\
+\midrule
+\multirow{2}{*}{Japan}
+    & Kan et al. (2016) & +0.3 to +1.5 pp \\
+    & De Michelis \& Iacoviello (2016) & +0.8 pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Why No Hyperinflation?}
+
+Despite massive balance sheet expansion, inflation remained subdued because:
+\begin{itemize}
+    \item Large output gaps meant little resource pressure
+    \item Banks held excess reserves rather than expanding lending proportionally
+    \item Long-term inflation expectations remained anchored near targets
+    \item Global disinflationary forces (technology, globalization) persisted
+\end{itemize}
+
+%==============================================================================
+\section{Cross-Country Comparison}
+%==============================================================================
+
+Table~\ref{tab:comparison} compares QE programs across major economies.
+
+\begin{table}[H]
+\centering
+\caption{Cross-Country QE Comparison}
+\label{tab:comparison}
+\begin{tabular}{lcccc}
+\toprule
+& \textbf{US} & \textbf{UK} & \textbf{Euro Area} & \textbf{Japan} \\
+\midrule
+Peak Balance Sheet (\% GDP) & $\sim$35\% & $\sim$45\% & $\sim$60\% & $>$100\% \\
+Negative Rates & No & No & Yes ($-$0.50\%) & Yes ($-$0.10\%) \\
+Yield Curve Control & No & No & No & Yes \\
+GDP Effect (typical) & 2--3\% & 1.5--2\% & 1--1.5\% & 0.5--1\% \\
+Inflation Effect & Modest & +1--2 pp & +0.5 pp & Limited \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Factors Explaining Variation}
+
+\begin{enumerate}
+    \item \textbf{Initial Conditions}: Higher starting yields allow larger compression
+    \item \textbf{Financial Stress}: Effects larger during market dysfunction
+    \item \textbf{Central Bank Credibility}: Japan's deflationary history limited effectiveness
+    \item \textbf{Economic Structure}: Bank-dependent economies respond differently
+    \item \textbf{Exchange Rate}: Small open economies see larger exchange rate effects
+\end{enumerate}
+
+%==============================================================================
+\section{Sweden: A Comprehensive Case Study}
+\label{sec:sweden}
+%==============================================================================
+
+Sweden provides a distinctive case study due to its small, open economy and the availability of a comprehensive independent evaluation (Ravn \& Wilkins, 2026) commissioned by the Swedish Parliament.
+
+\subsection{Timeline of Unconventional Policies}
+
+\begin{table}[H]
+\centering
+\caption{Sweden's Unconventional Monetary Policy Timeline}
+\label{tab:sweden_timeline}
+\begin{tabular}{lll}
+\toprule
+\textbf{Date} & \textbf{Action} & \textbf{Details} \\
+\midrule
+February 2015 & First negative rate & Policy rate to $-$0.10\% \\
+February 2015 & QE begins & SEK 10 billion government bonds \\
+February 2016 & Lowest rate & Policy rate reaches $-$0.50\% \\
+2015--2017 & QE expansion & Holdings reach SEK 330 billion \\
+December 2019 & Exit negative rates & Policy rate returns to 0\% \\
+March 2020 & Covid response & SEK 300 billion program announced \\
+November 2020 & Expansion & Envelope increased to SEK 700 billion \\
+Early 2022 & Peak holdings & $\sim$SEK 1 trillion ($\sim$25\% of GDP) \\
+April 2022 & Rate hikes begin & First increase to 0.25\% \\
+September 2024 & Capital injection & SEK 25 billion from government \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Macroeconomic Effects in Sweden}
+
+Table~\ref{tab:sweden_effects} presents estimates of QE effects in Sweden.
+
+\begin{table}[H]
+\centering
+\caption{Estimated QE Effects in Sweden}
+\label{tab:sweden_effects}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Period} & \textbf{Source} & \textbf{GDP Effect} & \textbf{Inflation Effect} \\
+\midrule
+2015--2019 & Kolasa, Las\'{e}en \& Lind\'{e} (2025) & $\sim$1\% & +20--50 bps \\
+2020--2023 & Akkaya et al. (2023) & $\sim$0.2\% & +0.25 pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key finding}: Pre-Covid QE was substantially more effective than Covid-era QE. The weaker effects during 2020--2023 reflect:
+\begin{itemize}
+    \item Asset composition weighted toward covered bonds (weaker transmission)
+    \item Market stress had already subsided when some programs were implemented
+    \item Smaller purchases relative to the economy
+\end{itemize}
+
+\subsection{Transmission Channels in Sweden}
+
+The \textbf{exchange rate channel} was particularly important for Sweden as a small, open economy:
+
+\begin{quote}
+``Kolasa, Las\'{e}en \& Lind\'{e} (2025) find QE was effective largely because it led to real depreciation of the krona, stimulating exports and imported inflation.'' (Ravn \& Wilkins, 2026)
+\end{quote}
+
+Additional Sweden-specific channels:
+\begin{itemize}
+    \item \textbf{Cash flow channel}: Strong due to predominance of variable-rate mortgages
+    \item \textbf{Signaling}: Forward guidance effective; Riksbank published policy rate paths since 2007
+\end{itemize}
+
+\subsection{Negative Interest Rates in Sweden}
+
+Sweden maintained negative rates from February 2015 to December 2019, reaching $-$0.50\%.
+
+\begin{table}[H]
+\centering
+\caption{Pass-Through of Negative Rates in Sweden}
+\label{tab:sweden_passthrough}
+\begin{tabular}{lc}
+\toprule
+\textbf{Rate} & \textbf{Pass-Through Coefficient} \\
+\midrule
+Interbank rate (STIBOR) & $\sim$1.0 \\
+3-month mortgage rate & $\sim$1.0 \\
+Corporate loan rate & $\sim$1.0 \\
+Deposit rate & Substantial \\
+10-year government bond & $\sim$0.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Diminishing returns}: Eggertsson et al. (2024) find that pass-through to lending rates declined when the policy rate fell below $-$0.25\%, suggesting Sweden may have approached the ``reversal rate'' where further cuts become counterproductive.
+
+\subsection{Balance Sheet Consequences}
+
+Sweden's experience highlights the fiscal costs of QE:
+
+\begin{itemize}
+    \item \textbf{Peak balance sheet}: 27.5\% of GDP (early 2022)
+    \item \textbf{Maturity mismatch}: Long-term bond assets vs. short-term liabilities
+    \item \textbf{Mark-to-market losses}: When rates rose in 2022
+    \item \textbf{Capital injection}: SEK 25 billion (0.39\% of GDP) in September 2024
+\end{itemize}
+
+The Riksbank had requested SEK 43.7 billion but received a smaller amount.
+
+\subsection{Monetary-Fiscal Coordination}
+
+Sweden operated under strict monetary dominance with:
+\begin{itemize}
+    \item Independent Riksbank pursuing 2\% inflation target
+    \item Fiscal rules: surplus target, expenditure ceiling, 35\% debt anchor
+\end{itemize}
+
+This meant the burden of stabilization at the zero lower bound fell entirely on the Riksbank. The National Debt Office continued issuing longer-term government bonds throughout the QE period, which the Riksbank then purchased---creating interest rate risk concentration.
+
+\subsection{The Role of Wage-Setting}
+
+A unique Swedish factor: the \textbf{Industrial Agreement} (Industriavtalet) from 1997 establishes coordinated wage bargaining with $\sim$90\% of employees covered by collective agreements.
+
+During 2022--2023, wage increases were moderate ($\sim$3.7\% annually) despite high inflation, contributing to real wage declines but helping anchor inflation expectations. This dampened the risk of wage-price spirals.
+
+\subsection{Lessons from Sweden}
+
+The 2026 Ravn-Wilkins evaluation identifies key lessons:
+
+\begin{enumerate}
+    \item \textbf{Distinguish market-functioning from stimulus QE}: The former was highly effective during Covid; the latter had modest effects
+
+    \item \textbf{Exchange rate channel dominates} for small, open economies
+
+    \item \textbf{Balance sheet risks} should be assessed more systematically ex-ante
+
+    \item \textbf{Exit strategies} should be predefined
+
+    \item \textbf{Coordination} between monetary and fiscal authorities matters, even within a monetary dominance framework
+\end{enumerate}
+
+%==============================================================================
+\section{Methodological Considerations}
+%==============================================================================
+
+\subsection{Why Estimates Vary}
+
+Fabo et al. (2021) document that central bank researchers systematically report larger QE effects than academic researchers:
+\begin{itemize}
+    \item Gap persists after controlling for methodology
+    \item May reflect institutional incentives, selection effects, or data access
+    \item Raises concerns about research credibility
+\end{itemize}
+
+\subsection{Comparison of Methods}
+
+\begin{table}[H]
+\centering
+\caption{Methodological Approaches to Measuring QE Effects}
+\label{tab:methods}
+\begin{tabular}{lll}
+\toprule
+\textbf{Method} & \textbf{Strengths} & \textbf{Limitations} \\
+\midrule
+Event Studies & Clean identification & Captures only surprises \\
+VAR & Dynamic effects, GDP/inflation & Identification challenges \\
+TVP-VAR & Allows time variation & Complex, small samples \\
+DSGE & Theory-consistent & Model-dependent \\
+Narrative & Natural experiments & Rare events \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Swedish Methodological Comparison}
+
+Even for the same country, different methods yield substantially different estimates:
+
+\begin{table}[H]
+\centering
+\caption{Swedish Monetary Policy Estimates by Method}
+\label{tab:sweden_methods}
+\begin{tabular}{llc}
+\toprule
+\textbf{Study} & \textbf{Method} & \textbf{GDP Effect (1 pp rate)} \\
+\midrule
+Berggren et al. (2024) & Bayesian VAR & $-$0.7\% to $-$0.8\% \\
+Almerud et al. (2024) & High-frequency ID & $-$1.5\% \\
+Coglianese et al. (2025) & Narrative & $-$5\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%==============================================================================
+\section{Conclusion}
+%==============================================================================
+
+The empirical evidence supports several conclusions:
+
+\begin{enumerate}
+    \item \textbf{QE reduced long-term yields} by 40--150 basis points, with effects concentrated during financial stress
+
+    \item \textbf{QE raised GDP} by 1--3\% at peak, with counterfactual analysis suggesting it prevented much worse outcomes
+
+    \item \textbf{Inflation effects were modest} (0.3--2 pp), preventing deflation rather than causing high inflation
+
+    \item \textbf{Effects varied substantially} across countries due to initial conditions, credibility, and economic structure
+
+    \item \textbf{Sweden's experience} demonstrates the importance of the exchange rate channel for small open economies and highlights balance sheet risks that materialized when rates rose
+
+    \item \textbf{Methodological uncertainty} remains large, with estimates varying by factors of 3--10x depending on approach
+\end{enumerate}
+
+The Swedish case, with its comprehensive 2026 evaluation, provides particularly valuable lessons for future unconventional monetary policy design.
+
+%==============================================================================
+% References
+%==============================================================================
+\newpage
+\section*{Key Sources}
+
+\begin{enumerate}
+    \item Andrade, P., et al. (2016). ``The ECB's Asset Purchase Programme.'' ECB Working Paper 1956.
+
+    \item Baumeister, C. \& Benati, L. (2013). ``Unconventional Monetary Policy and the Great Recession.'' \textit{International Journal of Central Banking}.
+
+    \item Bernanke, B. (2012). ``Monetary Policy since the Onset of the Crisis.'' Jackson Hole Symposium.
+
+    \item Bridges, J. \& Thomas, R. (2012). ``The Impact of QE on the UK Economy.'' Bank of England Working Paper.
+
+    \item Dell'Ariccia, G., et al. (2018). ``Unconventional Monetary Policies in the Euro Area, Japan, and the United Kingdom.'' \textit{Journal of Economic Perspectives}.
+
+    \item Fabo, B., et al. (2021). ``Fifty Shades of QE.'' \textit{Journal of Financial Economics}.
+
+    \item Joyce, M., et al. (2011). ``The Financial Market Impact of Quantitative Easing.'' \textit{International Journal of Central Banking}.
+
+    \item Ravn, M. \& Wilkins, C. (2026). ``Evaluation of the Riksbank's Monetary Policy 2015--2024.'' Swedish Parliament Finance Committee.
+\end{enumerate}
+
+\end{document}

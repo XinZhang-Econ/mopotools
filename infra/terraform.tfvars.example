@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit it.
+
+# Your GCP project ID (created by deploy.sh or pre-existing)
+project_id = "mopotools-XXXXXX"
+
+# GCP region — europe-west1 (Belgium) is recommended for EU data residency
+region = "europe-west1"
+
+# Admin email — receives lint reports and pipeline failure alerts
+admin_email = "you@example.com"
+
+# GitHub repository in "owner/repo" format
+# e.g. "xzhang01sa/mopotools"
+wiki_repo = "YOUR_GITHUB_USERNAME/mopotools"

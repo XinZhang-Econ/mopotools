@@ -1,0 +1,185 @@
+# Cloud Workflows — MoPoTools Ingest Pipeline
+# Triggered by Pub/Sub notification when a file lands in the raw/ bucket.
+# Chains: extract-text → generate-wiki → moderator notification
+
+main:
+  params: [event]
+  steps:
+
+    # ── Parse the Pub/Sub message ──────────────────────────────────────────
+    - decode_event:
+        assign:
+          - pubsub_message: ${base64.decode(event.data.message.data)}
+          - gcs_event: ${json.decode(pubsub_message)}
+          - raw_path: ${"gs://" + gcs_event.bucket + "/" + gcs_event.name}
+          - blob_name: ${gcs_event.name}
+
+    # ── Derive the paper slug from the filename ────────────────────────────
+    - derive_slug:
+        assign:
+          - slug_tmp: ${text.replace_all(blob_name, ".pdf", "")}
+          - slug: ${text.replace_all(slug_tmp, ".docx", "")}
+
+    # ── Skip if not a document upload ────────────────────────────────────
+    - check_is_document:
+        switch:
+          - condition: ${len(text.find_all_regex(blob_name, "\\.(pdf|docx|doc|md)$")) == 0}
+            next: finish
+        next: update_status_extracting
+
+    # ── Mark paper as "extracting" in Firestore ────────────────────────────
+    - update_status_extracting:
+        call: http.patch
+        args:
+          url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/papers/" + slug}'
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: extracting
+        result: firestore_response
+
+    # ── Stage 3: Text extraction ───────────────────────────────────────────
+    - extract_text:
+        call: http.post
+        args:
+          url: ${sys.get_env("EXTRACT_TEXT_URL")}
+          auth:
+            type: OIDC
+          body:
+            slug: ${slug}
+            raw_path: ${raw_path}
+          timeout: 600
+        result: extract_result
+
+    - check_extraction:
+        switch:
+          - condition: ${extract_result.code != 200}
+            next: handle_extraction_failure
+        next: update_status_generating
+
+    # ── Mark paper as "generating" ─────────────────────────────────────────
+    - update_status_generating:
+        call: http.patch
+        args:
+          url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/papers/" + slug}'
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              status:
+                stringValue: generating
+        result: firestore_response_2
+
+    # ── Retrieve tag from Firestore ────────────────────────────────────────
+    - get_paper_metadata:
+        call: http.get
+        args:
+          url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/papers/" + slug}'
+          auth:
+            type: OAuth2
+        result: paper_doc
+
+    - extract_tag:
+        assign:
+          - paper_tag: ${paper_doc.body.fields.tag.stringValue}
+
+    # ── Stage 4: AI wiki generation ────────────────────────────────────────
+    - generate_wiki:
+        call: http.post
+        args:
+          url: ${sys.get_env("GENERATE_WIKI_URL")}
+          auth:
+            type: OIDC
+          body:
+            slug: ${slug}
+            tag:  ${paper_tag}
+          timeout: 1800
+        result: generate_result
+
+    - check_generation:
+        switch:
+          - condition: ${generate_result.code == 422}
+            next: handle_sweden_check_failure
+          - condition: ${generate_result.code != 200}
+            next: handle_generation_failure
+        next: notify_moderator
+
+    # ── Notify moderator ───────────────────────────────────────────────────
+    - notify_moderator:
+        call: http.post
+        args:
+          url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/notifications/" + slug}'
+          auth:
+            type: OAuth2
+          body:
+            fields:
+              type:
+                stringValue: awaiting-review
+              slug:
+                stringValue: ${slug}
+              reviewUrl:
+                stringValue: '${"https://mopotools-frontend-HASH-ew.a.run.app/review/" + slug}'
+              createdAt:
+                stringValue: ${time.format(sys.now())}
+        result: notify_result
+        next: finish
+
+    # ── Error handlers ─────────────────────────────────────────────────────
+    - handle_extraction_failure:
+        steps:
+          - log_extraction_error:
+              call: sys.log
+              args:
+                text: '${"Extraction failed for " + slug + ": " + string(extract_result.code)}'
+                severity: ERROR
+          - update_status_extraction_failed:
+              call: http.patch
+              args:
+                url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/papers/" + slug}'
+                auth:
+                  type: OAuth2
+                body:
+                  fields:
+                    status:
+                      stringValue: extraction-failed
+              result: _
+          - raise_extraction:
+              raise: '${"Extraction failed for " + slug}'
+
+    - handle_generation_failure:
+        steps:
+          - log_generation_error:
+              call: sys.log
+              args:
+                text: '${"Generation failed for " + slug + ": " + string(generate_result.code)}'
+                severity: ERROR
+          - raise_generation:
+              raise: '${"Wiki generation failed for " + slug}'
+
+    - handle_sweden_check_failure:
+        steps:
+          - log_sweden_error:
+              call: sys.log
+              args:
+                text: '${"Sweden check failed for " + slug}'
+                severity: WARNING
+          - notify_admin_sweden:
+              call: http.post
+              args:
+                url: '${"https://firestore.googleapis.com/v1/projects/" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + "/databases/(default)/documents/notifications/sweden-" + slug}'
+                auth:
+                  type: OAuth2
+                body:
+                  fields:
+                    type:
+                      stringValue: sweden-check-failed
+                    slug:
+                      stringValue: ${slug}
+              result: _
+          - end_sweden:
+              next: finish
+
+    - finish:
+        return: ${slug}

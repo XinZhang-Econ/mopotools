@@ -1,0 +1,40 @@
+# Terraform
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/terraform.tfvars
+/tmp/*.zip
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.env
+frontend/.env.local
+frontend/.env*.local
+
+# Python
+functions/**/__pycache__/
+functions/**/*.pyc
+functions/**/.venv/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Obsidian
+.obsidian/
+
+# Secrets — never commit these
+*.pem
+*.key
+service-account*.json
+gcloud-credentials*.json
+
+# Build artifacts
+wiki-site/.quartz-cache/
+wiki-site/public/
+
+# Large binary source docs — stored in GCS, not git
+# Uncomment the line below if raw/ files are too large for your repo
+# raw/

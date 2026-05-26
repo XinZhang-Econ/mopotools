@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ────────────────────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function getRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && getRole() == 'admin';
+    }
+
+    function isContributor() {
+      return isSignedIn() && (getRole() == 'contributor' || getRole() == 'admin');
+    }
+
+    function isReader() {
+      return isSignedIn();
+    }
+
+    // ── Users collection ────────────────────────────────────────────────────
+    // Only admins can create or modify user documents.
+    // Users can read their own document.
+
+    match /users/{userId} {
+      allow read:   if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ── Papers collection ────────────────────────────────────────────────────
+    // Contributors can create and read their own papers.
+    // Admins can read and update any paper (for status transitions).
+    // No one can delete (audit trail).
+
+    match /papers/{slug} {
+      allow read:   if isContributor() && (
+                        resource.data.uploader == request.auth.uid || isAdmin()
+                      );
+      allow create: if isContributor()
+                    && request.resource.data.uploader == request.auth.uid
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.keys().hasAll([
+                         'slug', 'title', 'authors', 'year', 'tag',
+                         'rawPath', 'uploader', 'status', 'uploadedAt'
+                       ]);
+      allow update: if isAdmin()
+                    || (
+                         // Pipeline service account updates via server-side SDK
+                         // (those calls bypass Firestore rules — this rule is for
+                         //  the frontend moderator actions only)
+                         isAdmin()
+                       );
+      allow delete: if false;  // Papers are never deleted
+    }
+
+    // ── Notifications collection ─────────────────────────────────────────────
+    // Pipeline writes notifications; admins read them.
+
+    match /notifications/{notifId} {
+      allow read:   if isAdmin();
+      allow create: if false;  // Written by pipeline service account (bypasses rules)
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ── Deny everything else ────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
